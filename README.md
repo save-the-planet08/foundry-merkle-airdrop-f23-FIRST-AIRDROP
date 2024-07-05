@@ -1,66 +1,58 @@
-## Foundry
+# Foundry Merkle Airdrop
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+## Overview
 
-Foundry consists of:
+The Foundry Merkle Airdrop project is designed to distribute ERC-20 tokens efficiently and securely using Merkle tree proofs. This ensures that only eligible addresses can claim their tokens and prevents duplicate claims.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+## Features
 
-## Documentation
+- **Merkle Tree Proofs:** Efficient verification of eligible claims.
+- **Secure Claims:** Ensures each address can only claim once.
+- **EIP-712 Integration:** Utilizes EIP-712 for structured data hashing and signing.
 
-https://book.getfoundry.sh/
+## Contract Details
 
-## Usage
+### MerkleAirdrop.sol
 
-### Build
+The core contract of the project is `MerkleAirdrop.sol`, which handles the airdrop functionality. Key components include:
 
-```shell
-$ forge build
-```
+- **Constructor:** Initializes the contract with the Merkle root and the ERC-20 token to be airdropped.
+- **createLeaf:** Creates a Merkle tree leaf from an address and amount.
+- **claim:** Allows an eligible address to claim their tokens if they provide a valid Merkle proof and signature.
+- **getMessageHash:** Returns the hash of the claim message.
+- **getAirDropToken:** Returns the token being airdropped.
+- **getMerkleRoot:** Returns the Merkle root used for the airdrop.
+- **_isValidSignature:** Validates the signature of the claim.
 
-### Test
+## Errors
 
-```shell
-$ forge test
-```
+- **MerkleAridrop__InvalidProof:** Thrown when an invalid Merkle proof is provided.
+- **MerkleAridrop__AlreadyClaimed:** Thrown when an address tries to claim tokens more than once.
+- **MerkleAirdrop__InvalidSignature:** Thrown when an invalid signature is provided.
 
-### Format
+## Events
 
-```shell
-$ forge fmt
-```
+- **Claim:** Emitted when a successful claim is made.
 
-### Gas Snapshots
+## Setup and Installation
 
-```shell
-$ forge snapshot
-```
+1. **Clone the Repository:**
+    ```sh
+    git clone https://github.com/your-username/foundry-merkle-airdrop.git
+    cd foundry-merkle-airdrop
+    ```
 
-### Anvil
+2. **Install Foundry:**
+    Follow the instructions to install Foundry from the [official Foundry repository](https://github.com/foundry-rs/foundry).
 
-```shell
-$ anvil
-```
+3. **Build the Project:**
+    ```sh
+    forge build
+    ```
 
-### Deploy
+## Testing
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+To run the tests, use the following command:
 
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+```sh
+forge test
